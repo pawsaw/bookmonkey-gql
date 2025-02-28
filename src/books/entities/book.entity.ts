@@ -1,9 +1,9 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field, Int, ID } from '@nestjs/graphql';
 import { Author } from 'src/authors/entities/author.entity';
 
 @ObjectType()
 export class Book {
-  @Field(() => String, {
+  @Field(() => ID, {
     description: 'The id of the book. This is the same as isbn.',
   })
   id: string;

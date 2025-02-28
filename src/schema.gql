@@ -4,7 +4,7 @@
 
 type Author {
   """The id of the author"""
-  id: String!
+  id: ID!
 
   """The full name of the author"""
   fullName: String!
@@ -18,7 +18,7 @@ type Author {
 
 type Book {
   """The id of the book. This is the same as isbn."""
-  id: String!
+  id: ID!
 
   """The title of the book."""
   title: String!
