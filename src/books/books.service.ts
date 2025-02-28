@@ -42,31 +42,26 @@ export class BooksService {
   }
 
   async findOne(isbn: string): Promise<Book> {
-    const res = await fetch(`${this.baseUrl}/${isbn}`);
-    if (!res.ok) {
-      throw Error(`Couldn't find book with ISBN "${isbn}".`);
-    }
-    const transientBook = (await res.json()) as BookTransient;
+    const transientBook = await this.findOneTransient(isbn);
     return BooksService.fromTransient(transientBook);
   }
 
   async update(isbn: string, updateBookInput: UpdateBookInput): Promise<Book> {
+    const transientBook = await this.findOneTransient(isbn);
+
     const response = await fetch(`${this.baseUrl}/${isbn}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        Accept: 'application/json',
       },
-      body: JSON.stringify({ ...updateBookInput }),
+      body: JSON.stringify({ ...transientBook, ...updateBookInput, isbn }),
     });
 
     if (!response.ok) {
       throw new Error(`Couldn't update the book with the ISBN "${isbn}".`);
     }
 
-    const transientBook = (await response.json()) as BookTransient;
-
-    return BooksService.fromTransient(transientBook);
+    return this.findOne(isbn);
   }
 
   async remove(isbn: string): Promise<void> {
@@ -80,6 +75,14 @@ export class BooksService {
     if (!response.ok) {
       throw new Error(`Couldn't delete the book with the ISBN "${isbn}".`);
     }
+  }
+
+  private async findOneTransient(isbn: string): Promise<BookTransient> {
+    const res = await fetch(`${this.baseUrl}/${isbn}`);
+    if (!res.ok) {
+      throw Error(`Couldn't find book with ISBN "${isbn}".`);
+    }
+    return (await res.json()) as BookTransient;
   }
 
   private static fromTransient(bookTransient: BookTransient): Book {
