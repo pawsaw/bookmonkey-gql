@@ -54,8 +54,23 @@ type Query {
     searchTerm: String
   ): [Book!]!
   book(isbn: String!): Book!
-  authors: [Author!]!
+  authors(
+    """Filter the results by the given searchTerms"""
+    search: AuthorSearchInput
+  ): [Author!]!
   author(id: String!): Author!
+}
+
+input AuthorSearchInput {
+  """
+  Filter authors with associated books that somehow match this search term (fuzzy search).
+  """
+  bookSearchTerm: String
+
+  """
+  Filter authors with names that somehow match this search term (fuzzy search).
+  """
+  nameSearchTerm: String
 }
 
 type Mutation {
