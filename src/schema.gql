@@ -1,0 +1,127 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Author {
+  """The id of the author"""
+  id: String!
+
+  """The full name of the author"""
+  fullName: String!
+
+  """The first name of the author"""
+  firstName: String!
+
+  """The last name of the author"""
+  lastName: String!
+}
+
+type Book {
+  """The id of the book. This is the same as isbn."""
+  id: String!
+
+  """The title of the book."""
+  title: String!
+
+  """The subtitle of the book"""
+  subtitle: String!
+
+  """The isbn of the book. This is the same as id"""
+  isbn: String!
+
+  """The abstract of the book"""
+  abstract: String!
+
+  """The author of the book"""
+  author: [Author!]!
+
+  """The publisher of the book"""
+  publisher: String!
+
+  """The price of the book"""
+  price: String!
+
+  """The number of pages of a book"""
+  numPages: Int!
+
+  """The cover url of the book"""
+  cover: String!
+}
+
+type Query {
+  books(
+    """Run a fuzzy search on all properties of a book."""
+    searchTerm: String
+  ): [Book!]!
+  book(isbn: String!): Book!
+  authors: [Author!]!
+  author(id: String!): Author!
+}
+
+type Mutation {
+  createBook(createBookInput: CreateBookInput!): Book!
+  updateBook(isbn: String!, updateBookInput: UpdateBookInput!): Book!
+  removeBook(isbn: String!): Book!
+}
+
+input CreateBookInput {
+  """The title of the book."""
+  title: String!
+
+  """The subtitle of the book"""
+  subtitle: String!
+
+  """The isbn of the book. This is the same as id"""
+  isbn: String!
+
+  """The abstract of the book"""
+  abstract: String!
+
+  """
+  The authors of the book. This may be a comma seperated string of authors
+  """
+  author: String!
+
+  """The publisher of the book"""
+  publisher: String!
+
+  """The price of the book"""
+  price: String!
+
+  """The number of pages of a book"""
+  numPages: Int!
+
+  """The cover url of the book"""
+  cover: String!
+}
+
+input UpdateBookInput {
+  """The title of the book."""
+  title: String
+
+  """The subtitle of the book"""
+  subtitle: String
+
+  """The isbn of the book. This is the same as id"""
+  isbn: String
+
+  """The abstract of the book"""
+  abstract: String
+
+  """
+  The authors of the book. This may be a comma seperated string of authors
+  """
+  author: String
+
+  """The publisher of the book"""
+  publisher: String
+
+  """The price of the book"""
+  price: String
+
+  """The number of pages of a book"""
+  numPages: Int
+
+  """The cover url of the book"""
+  cover: String
+}
